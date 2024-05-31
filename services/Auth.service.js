@@ -8,6 +8,7 @@ module.exports = class Auth {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
+        console.log(errors.array());
         return res.status(400).json(errors.array());
       }
 
@@ -54,6 +55,18 @@ module.exports = class Auth {
       });
     } catch (error) {
       res.status(500).json({ message: 'Не удалось авторизоваться, попробуйте чуть позже', error })
+    }
+  }
+  static async getUser(req, res, next) {
+    try {
+      const user = await User.findOne({ _id: req.userId });
+      if (!user) {
+        return res.status(404).json({ success: false, message: "Пользователь не найден" });
+      }
+      const { passwordHash, ...userData } = user._doc;
+      return res.json({ success: true, userData });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: "Пользователь не найден, попробуйте позже" });
     }
   }
 
