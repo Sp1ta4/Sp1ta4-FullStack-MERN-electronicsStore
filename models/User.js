@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+const cartItemSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+  quantity: {
+    type: Number,
+    required: true,
+    minimum: 1,
+    maximum: 99,
+  }
+});
+
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -15,10 +25,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  cartItems: {
-    type: Array,
-    required: true
-  },
+  cartItems: [cartItemSchema],
   orders: {
     type: Array,
     required: true

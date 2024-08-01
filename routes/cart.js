@@ -5,6 +5,7 @@ const CartServices = require('../services/Cart.service');
 
 router.get('/', CheckAuth, CartServices.getAllItems);
 router.post('/addItem', CheckAuth, CartServices.addItem);
-router.delete('/removeItem', CheckAuth, CartServices.deleteItem);
+router.delete('/removeItem/:productId', CheckAuth, CartServices.deleteItem);
+router.post('/minusItem', CheckAuth, CartServices.minusItem);
 
 module.exports = router;
